@@ -1,0 +1,3 @@
+brew install libmagic-dev
+brew install poppler-utils
+brew install tesseract-ocr
