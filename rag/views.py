@@ -21,6 +21,8 @@ import pytesseract
 from pdf2image import convert_from_path
 logging.basicConfig()
 logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
+from django.views.decorators.http import require_http_methods
+import shutil
 
 timers = {} 
 
@@ -85,7 +87,33 @@ def upload_files_ocr(request):
     print("|||||")
     print(session_id)
     print("|||||")
+
+
+
+
+
+
+
+    folder_path = os.path.join(settings.MEDIA_ROOT, session_id)
     
+    # Check if the folder exists
+    if not os.path.isdir(folder_path):
+        pass   
+    try:
+        # Remove all contents of the folder
+        for filename in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+
+    except Exception:
+        pass
+
+
+
     user_dir = os.path.join(settings.MEDIA_ROOT, session_id)
     os.makedirs(user_dir, exist_ok=True)
 
@@ -202,7 +230,36 @@ def upload_files(request):
     print("|||||")
     print(session_id)
     print("|||||")
-    
+   
+
+
+
+
+
+    folder_path = os.path.join(settings.MEDIA_ROOT, session_id)
+
+    # Check if the folder exists
+    if not os.path.isdir(folder_path):
+        pass
+    try:
+        # Remove all contents of the folder
+        for filename in os.listdir(folder_path):
+            file_path = os.path.join(folder_path, filename)
+            try:
+                if os.path.isfile(file_path) or os.path.islink(file_path):
+                    os.unlink(file_path)
+                elif os.path.isdir(file_path):
+                    shutil.rmtree(file_path)
+
+    except Exception:
+        pass
+
+
+
+
+
+
+
     user_dir = os.path.join(settings.MEDIA_ROOT, session_id)
     os.makedirs(user_dir, exist_ok=True)
 
