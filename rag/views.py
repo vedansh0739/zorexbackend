@@ -22,10 +22,17 @@ from pdf2image import convert_from_path
 logging.basicConfig()
 logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 
-timers = {}  
+timers = {} 
+
+
 globalResults={}
 globalFileNames={}
 globalCollections={}
+
+
+
+
+
 import chromadb
 
 client = chromadb.Client()
@@ -154,9 +161,12 @@ def upload_files_ocr(request):
     globalResults[session_id]=results
     globalFileNames[session_id]=pdfNames
     
-    
-    
-    
+    try:
+        collection=client.get_collection(name=session_id)
+        client.delete_collection(name=session_id)
+    except Exception:
+        pass
+
     collection = client.create_collection(session_id)
     collection.add(
         documents=results, 
@@ -261,11 +271,18 @@ def upload_files(request):
 
     globalResults[session_id]=results
     globalFileNames[session_id]=pdfNames
-    
-    
-    
-    
+   
+    try:
+        collection=client.get_collection(name=session_id)
+        client.delete_collection(name=session_id)
+    except Exception:
+        pass
+
     collection = client.create_collection(session_id)
+
+
+
+    
     collection.add(
         documents=results, 
         ids=pdfNames,
