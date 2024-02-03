@@ -41,7 +41,7 @@ SECRET_KEY = 'django-insecure-^&d!o6t3q*5u67nuhm-#dz*geh6w-wytn^h9t3qssgw4#hfl=!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['backend.zorex.xyz','0.0.0.0', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['backend.zorex.xyz','43.204.143.56','0.0.0.0', 'localhost', '127.0.0.1']
 CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
