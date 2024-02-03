@@ -2,11 +2,12 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-
+from django.core.asgi import get_asgi_application
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'zorexbackend.settings')
+    application = get_asgi_application()
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
