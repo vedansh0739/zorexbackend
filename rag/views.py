@@ -381,7 +381,6 @@ def query(request):
         print("|||||")
         
 
-        print(input_string)
 
         
         
@@ -410,6 +409,10 @@ Conversion: """
         conversionPrompt = PromptTemplate.from_template(template)
         pr=conversionPrompt.format(query=input_string)
         finalquery=conversionllm.predict(pr)
+        print("________finalquery_________")
+        print(finalquery)
+        print("________finalquery_________")
+        
         
         
         
