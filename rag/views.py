@@ -289,9 +289,9 @@ def upload_files(request):
             
             chunks = text_splitter.create_documents([extracted_text])
             print(f"++{file}++{len(chunks)} are the number of chunks ++ {len(extracted_text)/4} is the number of tokens")
-            if(len(extracted_text)/4>100000):
-                print(f"{file} will get ignored as it exceeds the 100000 token limit")
-                continue
+            # if(len(extracted_text)/4>100000):
+            #     print(f"{file} will get ignored as it exceeds the 100000 token limit")
+            #     continue
             pdfNames.append(file)
             pdfs.append(chunks)
 
@@ -362,10 +362,8 @@ def upload_files(request):
 
 
 
-from langchain.prompts import FewShotPromptTemplate, PromptTemplate
-from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
-from langchain_community.vectorstores import Chroma
-from langchain_openai import OpenAIEmbeddings
+from langchain.prompts import PromptTemplate
+
 @csrf_exempt
 def query(request):
     if request.method == 'POST':
