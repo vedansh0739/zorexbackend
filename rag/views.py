@@ -297,20 +297,20 @@ def upload_files(request):
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo-16k")
 
-    prompt_template = """Please provide a comprehensive summary of the text, ensuring to identify and specify the roles of the involved parties within the summary. If the text mentions the plaintiff or the defendant, clearly label them as such in your summary. Additionally, if the prevailing party is identified, please denote whether they were the plaintiff or the defendant. The summary should encapsulate all key points and details from the provided text:
+    prompt_template = """Please provide a comprehensive summary of the text in markdown syntax, ensuring to identify and specify the roles of the involved parties within the summary. If the text mentions the plaintiff or the defendant, clearly label them as such in your summary. Additionally, if the prevailing party is identified, please denote whether they were the plaintiff or the defendant. The summary should encapsulate all key points and details from the provided text:
     {text}
-    COMPREHENSIVE SUMMARY:"""
+    COMPREHENSIVE SUMMARY IN MARKDOWN SYNTAX:"""
     prompt = PromptTemplate.from_template(prompt_template)
 
     refine_template = (
-        "Your job is to produce a final summary\n"
+        "Your job is to produce a final summary in markdown syntax\n"
         "We have provided an existing summary up to a certain point: {existing_answer}\n"
         "We have the opportunity to refine the existing summary"
         "(only if needed) with some more context below.\n"
         "------------\n"
         "{text}\n"
         "------------\n"
-        "Given the new context, refine the original summary"
+        "Given the new context, refine the original summary and return it in the form of markdown syntax"
         "If the context isn't useful, return the original summary."
     )
     refine_prompt = PromptTemplate.from_template(refine_template)
