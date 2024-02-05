@@ -382,7 +382,40 @@ def query(request):
         
 
         print(input_string)
-        query=input_string
+
+        
+        
+        
+        
+        conversionllm = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0.2)
+
+        template = """Convert the following user queries into declarative sentences to enhance the effectiveness of a similarity search over a document folder. The conversion should reformulate the question into a statement that encapsulates the essence of the query, aiding in pinpointing the relevant documents. Below are a few examples to demonstrate the desired transformation:
+
+User Query: Find a case law where fashion photographers were accused of copyright infringement.
+Conversion: Fashion photographers were accused of copyright infringement.
+
+User Query: Find the PDF where the defense to copyright infringement was freedom of expression.
+Conversion: The defense to copyright infringement was freedom of expression.
+
+User Query: Find proceeding where the defendants alleged entrapment against the plaintiffs.
+Conversion: The defendants alleged entrapment against the plaintiffs.
+
+User Query: In which judgements of copyright infringement ignorance was a defense that was used by the defendant?
+Conversion: Copyright infringement where ignorance was a defense that was used by the defendant.
+
+Now, convert the following user query:
+
+User Query: {query}
+Conversion: """
+        conversionPrompt = PromptTemplate.from_template(template)
+        pr=conversionPrompt.format(query=input_string)
+        finalquery=conversionllm.predict(pr)
+        
+        
+        
+        
+        
+        
         filenames=globalFileNames[session_id]
         results=globalResults[session_id]
         
@@ -391,7 +424,7 @@ def query(request):
         collection=globalCollections[session_id]
         
         
-        chromaanswer=collection.query(query_texts=[query],
+        chromaanswer=collection.query(query_texts=[finalquery],
         n_results=3 ,
         )
         print('^^^^^')
@@ -404,11 +437,12 @@ def query(request):
         
         
         
-        combined_dict={filename: {
-        'result': result_dict[filename],
-        'score': filescoresdict[filename]
-    }for filename in result_dict
-}
+        combined_dict={
+            filename: {
+                'result': result_dict[filename],
+                'score': filescoresdict[filename]
+            } for filename in result_dict
+        }
         score_result_pairs = [(info['score'], info['result']) for info in combined_dict.values()]
         print(f"**{result_dict}**{filescoresdict}**")
         score_result_pairs.sort(key=lambda x: x[0])
