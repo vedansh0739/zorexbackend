@@ -108,7 +108,8 @@ def upload_files_ocr(request):
                     os.unlink(file_path)
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
-
+            except Exception:
+                pass
     except Exception:
         pass
 
@@ -250,6 +251,8 @@ def upload_files(request):
                     os.unlink(file_path)
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
+            except Exception:
+                pass
 
     except Exception:
         pass
